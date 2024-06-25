@@ -1,10 +1,11 @@
 import { Box, Button, CircularProgress } from "@mui/material";
 import useAxios from "axios-hooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UsersTable from "./UsersTable";
 import MessageContainer from "./MessageContainer";
 import CreateUserModal from "../create";
 import UploadInput from "./UploadInput";
+import { useLocation } from "react-router-dom";
 
 const Home = () => {
   const [isCreateUserOpen, setIsCreateUserOpen] = useState(false);
@@ -12,6 +13,12 @@ const Home = () => {
   const [{ data, loading, error }, refetch] = useAxios(
     `${process.env.REACT_APP_SERVER_BASE_URL}/users`,
   );
+
+  let location = useLocation();
+
+  useEffect(() => {
+    refetch();
+  }, [location]);
 
   if (loading) {
     return (
