@@ -16,6 +16,25 @@ router.get("/users", (req: Request, res: Response) => {
   });
 });
 
+router.get("/user", (req: Request, res: Response) => {
+  const userId = req.body.id;
+
+  if (!userId) {
+    res.sendStatus(400);
+    return;
+  }
+  const user = db.prepare("SELECT * FROM users WHERE id = ?").get(userId);
+
+  if (!user) {
+    res.sendStatus(404);
+    return;
+  }
+
+  res.json({
+    user,
+  });
+});
+
 router.post("/users", (req: Request, res: Response) => {
   if (
     !req.body.firstName ||
