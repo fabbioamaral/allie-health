@@ -10,7 +10,7 @@ const Home = () => {
   const [isCreateUserOpen, setIsCreateUserOpen] = useState(false);
 
   const [{ data, loading, error }, refetch] = useAxios(
-    `${process.env.REACT_APP_SERVER_BASE_URL}/users`
+    `${process.env.REACT_APP_SERVER_BASE_URL}/users`,
   );
 
   if (loading) {
@@ -51,6 +51,7 @@ const Home = () => {
       <CreateUserModal
         open={isCreateUserOpen}
         handleClose={() => setIsCreateUserOpen(!isCreateUserOpen)}
+        refetch={refetch}
       />
     </>
   );
