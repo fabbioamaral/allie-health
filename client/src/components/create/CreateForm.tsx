@@ -61,6 +61,7 @@ const CreateForm = ({ onSubmit, refetch }: Props) => {
             variant="outlined"
             {...register("email")}
             required={true}
+            type="email"
           />
           <TextField
             label="Birthday"
