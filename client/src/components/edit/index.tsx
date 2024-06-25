@@ -2,11 +2,15 @@ import { Link, useParams } from "react-router-dom";
 import { User } from "../../models/user.model";
 import useAxios from "axios-hooks";
 import { Button } from "@mui/material";
+import { useState } from "react";
+import EditForm from "./EditForm";
 
 const EditUser = () => {
-  let { id } = useParams();
+  const [isEditUserOpen, setIsEditUserOpen] = useState(false);
 
-  const [{ data, loading, error }] = useAxios({
+  const { id } = useParams();
+
+  const [{ data, loading, error }, refetch] = useAxios({
     url: `${process.env.REACT_APP_SERVER_BASE_URL}/user`,
     params: { id },
     method: "GET",
@@ -27,6 +31,20 @@ const EditUser = () => {
       <p>{data?.user.email}</p>
       <h2>Birthday</h2>
       <p>{data?.user.birthday ? data?.user.birthday : "Not Informed"}</p>
+      <Button
+        variant="contained"
+        type="submit"
+        disabled={loading}
+        onClick={() => setIsEditUserOpen(true)}
+      >
+        Edit User
+      </Button>
+      <EditForm
+        open={isEditUserOpen}
+        handleClose={() => setIsEditUserOpen(!isEditUserOpen)}
+        refetch={refetch}
+        user={data?.user}
+      />
     </>
   );
 };
