@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 import { db } from "./db";
 import multer from "multer";
 import os from "os";
+import { User } from "./user.model";
 
 const router = Router();
 
@@ -39,6 +40,39 @@ router.post("/users", (req: Request, res: Response) => {
 
   res.json({
     id: user.lastInsertRowid,
+  });
+});
+
+router.put("/user", (req: Request, res: Response) => {
+  const userId = req.body.id;
+
+  if (!userId) {
+    res.sendStatus(400);
+    return;
+  }
+
+  const getUserByIdQuery = db.prepare("SELECT * FROM users WHERE id = ?");
+  const userToBeUpdated = getUserByIdQuery.get(userId) as User;
+
+  if (!userToBeUpdated) {
+    res.sendStatus(404);
+    return;
+  }
+
+  const updateQueryTemplate = db.prepare(
+    "UPDATE users SET first_name = ?, last_name = ?, email = ?, birthday = ? WHERE id = ?",
+  );
+
+  const updateUserQuery = updateQueryTemplate.run(
+    req.body.firstName || userToBeUpdated.first_name,
+    req.body.lastName || userToBeUpdated.last_name,
+    req.body.email || userToBeUpdated.email,
+    req.body.birthday || userToBeUpdated.birthday,
+    userId,
+  );
+
+  res.json({
+    id: updateUserQuery.lastInsertRowid,
   });
 });
 
