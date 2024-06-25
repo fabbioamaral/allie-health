@@ -17,7 +17,7 @@ router.get("/users", (req: Request, res: Response) => {
 });
 
 router.get("/user", (req: Request, res: Response) => {
-  const userId = req.body.id;
+  const userId = req.query.id;
 
   if (!userId) {
     res.sendStatus(400);
