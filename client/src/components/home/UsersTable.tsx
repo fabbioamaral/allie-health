@@ -5,6 +5,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
+import { Link } from "react-router-dom";
 
 const TableHeaderCell = (props: Record<any, any>) => (
   <TableCell
@@ -33,6 +35,7 @@ const UsersTable = ({ users }: Props) => (
           <TableHeaderCell>Name</TableHeaderCell>
           <TableHeaderCell align="right">Email</TableHeaderCell>
           <TableHeaderCell align="center">Birthday</TableHeaderCell>
+          <TableHeaderCell align="center">Action</TableHeaderCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -46,6 +49,11 @@ const UsersTable = ({ users }: Props) => (
             </TableCell>
             <TableCell align="right">{user.email}</TableCell>
             <TableCell align="center">{user.birthday}</TableCell>
+            <TableCell align="center">
+              <Link to={`/user/${user.id}`}>
+                <ModeEditOutlineOutlinedIcon color="primary" />
+              </Link>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
