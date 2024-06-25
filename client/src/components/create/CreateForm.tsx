@@ -61,6 +61,15 @@ const CreateForm = ({ onSubmit, refetch }: Props) => {
             variant="outlined"
             {...register("email")}
             required={true}
+            type="email"
+          />
+          <TextField
+            label="Birthday"
+            variant="outlined"
+            {...register("birthday")}
+            required={true}
+            type="date"
+            InputLabelProps={{ shrink: true }}
           />
           <Button variant="contained" type="submit" disabled={loading}>
             Create User
